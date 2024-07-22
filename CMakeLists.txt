@@ -8,12 +8,23 @@ include_directories( "src" )
 file (GLOB source_files CONFIGURE_DEPENDS
 		"*.cpp"
 		"*.h"
-		"src/*.cpp"
-		"src/*.h"
+			"src/*.cpp"
+			"src/*.h"
+				#"src/CE303/*.cpp"
+				#"src/CE303/*.h"
+					#"src/CE303/Client/*.cpp"
+					#"src/CE303/Client/*.h"
+			"util/datastructs/*.cpp"
+			"util/datastructs/*.h"
+)
+
+file (GLOB_RECURSE ce303_files CMAKE_CONFIGURE_DEPENDS
+		"src/CE303/*.cpp"
+		"src/CE303/*.h"
 )
 
 # Add source to this project's library.
-add_executable(${PROJECT_NAME} ${source_files})
+add_executable(${PROJECT_NAME} ${source_files} ${ce303_files})
 
 # Set which version of C++ we want to use
 if (CMAKE_VERSION VERSION_GREATER 3.12)
