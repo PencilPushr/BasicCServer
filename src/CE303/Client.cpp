@@ -46,13 +46,35 @@ void Client::Connect()
         Client::Close();
     }
 
+    if (!Authenticate()) 
+    {
+        printf("Authentication failed. Exiting.");
+        Close();
+        return;
+    }
+
     // Spawn new thread that listens to the server to prevent blocking when reading and writing
     m_sl = ServerListener(this, 4096);
     m_sl_thread = std::thread(ServerListener::SelfCall, &m_sl);
     m_sl_thread.detach();
 
     // 4. Send and recieve data
+    std::string input;
+    while (std::getline(std::cin, input)) 
+    {
+        send(m_socket, input.c_str(), input.length(), 0);
+        if (input == "exit") 
+        {
+            break;
+        }
+    }
 
+    Close();
+}
+
+socket_t Client::GetSocket()
+{
+    return m_socket;
 }
 
 void Client::InitSockets()
@@ -93,21 +115,21 @@ void Client::CreateSocket()
 
 bool Client::Authenticate()
 {
-    //// Receive the nonce challenge from the server
-    //std::string nonce = m_server_reader.getline();
-    //
-    //// Calculate the hash with the shared secret and salt
-    //const char * secret_with_salt = m_authkey + m_salt;
-    //const char * hash_input = secret_with_salt + nonce;
-    //std::string* hashedResponse = CalculateHash(hash_input);
-    //
-    //// Send the hashed response back to the server
-    //clientWriter.println(hashedResponse);
-    //
-    //// The server will verify the response
-    //
-    //return true; // Authentication successful
-    //
+    // Receive the nonce challenge from the server
+    std::string nonce = m_server_reader.getline();
+    
+    // Calculate the hash with the shared secret and salt
+    const char * secret_with_salt = m_authkey + m_salt;
+    const char * hash_input = secret_with_salt + nonce;
+    std::string* hashedResponse = CalculateHash(hash_input);
+    
+    // Send the hashed response back to the server
+    clientWriter.println(hashedResponse);
+    
+    // The server will verify the response
+    
+    return true; // Authentication successful
+    
     return 0;
 
 }
@@ -125,6 +147,13 @@ void Client::Close()
 
     if (m_client_writer != NULL) {
         m_client_writer->write("exit", 4);
+    }
+    if (m_socket != INVALID_SOCKET) {
+        closesocket(m_socket);
+        m_socket = INVALID_SOCKET;
+    }
+    if (m_sl_thread.joinable()) {
+        m_sl_thread.join();
     }
 
 #ifdef _WIN32

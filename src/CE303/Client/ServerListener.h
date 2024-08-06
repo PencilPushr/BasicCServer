@@ -2,6 +2,8 @@
 
 #include <vector>
 
+#include "DataStructures/SocketType/SocketType.h"
+
 class Client;
 
 class ServerListener
@@ -19,5 +21,6 @@ private:
 
 private:
 	Client* m_parent_thread;
+	size_t m_buffer_size;
 	std::vector<char> m_input_buffer = { 0 };
 };

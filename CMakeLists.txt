@@ -4,23 +4,26 @@ cmake_minimum_required(VERSION 3.16...3.23)
 project(BasicCServer)
 
 include_directories( "src" )
+include_directories( "util" )
 
 file (GLOB source_files CONFIGURE_DEPENDS
 		"*.cpp"
 		"*.h"
-			"src/*.cpp"
-			"src/*.h"
-				#"src/CE303/*.cpp"
+			"Src/*.cpp"
+			"Src/*.h"
+				#"src/CE303/*.cpp" See the GLOB_RECURSE
 				#"src/CE303/*.h"
 					#"src/CE303/Client/*.cpp"
 					#"src/CE303/Client/*.h"
-			"util/datastructs/*.cpp"
-			"util/datastructs/*.h"
+			"Util/Datastructs/*.cpp"
+			"Util/Datastructs/*.h"
+				"Util/Datastructs/SocketType/*.cpp"
+				"Util/Datastructs/SocketType/*.h"
 )
 
 file (GLOB_RECURSE ce303_files CMAKE_CONFIGURE_DEPENDS
-		"src/CE303/*.cpp"
-		"src/CE303/*.h"
+		"Src/CE303/*.cpp"
+		"Src/CE303/*.h"
 )
 
 # Add source to this project's library.
