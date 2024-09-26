@@ -14,7 +14,8 @@
 buff_size is the length of the chunk
 */
 template <class T, size_t buff_size>
-struct chunk {
+struct chunk 
+{
     T* cur;
     T* first;    
     T* last;      
@@ -22,7 +23,8 @@ struct chunk {
 };
 
 template<typename T, size_t buff_size = 0>
-class deque {
+class deque 
+{
 public:
     using chunk = chunk<T, buff_size>;
     using INITIAL_MAP_SIZE = 8;
@@ -53,9 +55,9 @@ private:
 protected:
 
     // allocate memory for the chunk 
-    using dataAllocator = allocator<T>;
+    using data_allocator = allocator<T>;
     // allocate memory for map 
-    using mapAllocatior = allocator<T>;
+    using map_allocator = allocator<T*>;
 
 private:
 
@@ -129,3 +131,4 @@ template<typename T, size_t buff_size>
 inline void deque<T, buff_size>::CentreChunks()
 {
 }
+

@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <thread>
+#include <string>
 
 /*
 *			Winsock Client side normally as follows:

@@ -2,6 +2,7 @@
 
 #include <thread>
 
+
 Client::Client(const std::string& server_address, const int server_port, std::ostream * client_writer, 
     std::istream * server_reader) : 
     m_server_address{ server_address }, m_server_port{ server_port }, m_socket{ INVALID_SOCKET },
@@ -46,12 +47,12 @@ void Client::Connect()
         Client::Close();
     }
 
-    if (!Authenticate()) 
-    {
-        printf("Authentication failed. Exiting.");
-        Close();
-        return;
-    }
+    //if (!Authenticate()) 
+    //{
+    //    printf("Authentication failed. Exiting.");
+    //    Close();
+    //    return;
+    //}
 
     // Spawn new thread that listens to the server to prevent blocking when reading and writing
     m_sl = ServerListener(this, 4096);
@@ -74,7 +75,7 @@ void Client::Connect()
 
 socket_t Client::GetSocket()
 {
-    return m_socket;
+    return &m_socket;
 }
 
 void Client::InitSockets()
