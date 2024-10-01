@@ -1,5 +1,8 @@
 #pragma once
 
+#include <type_traits>
+#include <stdexcept>
+
 // SFINAE -> function template is discarded if the unamed template parameters fail.
 template<typename Container, typename Index,
     typename = std::enable_if_t<std::is_integral_v<Index>>, // Check if 2nd parameter is integral

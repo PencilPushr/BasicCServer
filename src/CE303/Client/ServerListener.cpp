@@ -17,7 +17,8 @@ void ServerListener::Run()
 {
     std::vector<char> buffer(m_buffer_size);
 
-    while (true) {
+    while (std::atomic<bool> close_value) // Set timeout on socket
+    {
         int bytes_received = recv(m_parent_thread->GetSocket(), buffer.data(), buffer.size(), 0);
         if (bytes_received > 0) 
         {
@@ -31,7 +32,9 @@ void ServerListener::Run()
         }
         else 
         {
+#ifdef _WIN32
             std::cerr << "Error receiving data: " << WSAGetLastError() << std::endl;
+#endif
             break;
         }
     }

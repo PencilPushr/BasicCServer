@@ -1,12 +1,11 @@
 #include "Client.h"
 
 #include <thread>
+#include <string>
+#include <cstring>
 
-
-Client::Client(const std::string& server_address, const int server_port, std::ostream * client_writer, 
-    std::istream * server_reader) : 
-    m_server_address{ server_address }, m_server_port{ server_port }, m_socket{ INVALID_SOCKET },
-    m_client_writer{ client_writer }, m_server_reader{ server_reader }
+Client::Client(const std::string& server_address, const int server_port) :
+    m_server_address{ server_address }, m_server_port{ server_port }, m_socket{ INVALID_SOCKET }
 {
 
 }
@@ -22,7 +21,7 @@ void Client::Connect()
     CreateSocket();
 
 
-    // Get server info 
+    // Get server info
     // alt:
     /*
     HOSTENT* host = gethostbyname(szHost);
@@ -78,42 +77,6 @@ socket_t Client::GetSocket()
     return &m_socket;
 }
 
-void Client::InitSockets()
-{
-#ifdef _WIN32
-    // 1. Init winsock
-    m_wVersionRequested = MAKEWORD(2, 2);
-    m_wsaerr = WSAStartup(m_wVersionRequested, &m_wsaData);
-    if (m_wsaerr != 0)
-    {
-        /* Tell the user that we could not find a usable */
-        /* WinSock DLL.*/
-        printf("The Winsock dll not found!\n");
-        Client::Close();
-    }
-    else
-    {
-        printf("The Winsock dll found!\n");
-        printf("The status: %s.\n", m_wsaData.szSystemStatus);
-    }
-#endif
-}
-
-void Client::CreateSocket()
-{
-#ifdef _WIN32
-    // 2. Create a socket and validate it
-    m_socket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-    if (m_socket == INVALID_SOCKET)
-    {
-        printf("Client: socket() - Error at socket(): %ld\n", WSAGetLastError());
-        WSACleanup();
-        Client::Close();
-    }
-#endif
-
-}
-
 bool Client::Authenticate()
 {
     // Receive the nonce challenge from the server
@@ -125,7 +88,7 @@ bool Client::Authenticate()
     std::string* hashedResponse = CalculateHash(hash_input);
     
     // Send the hashed response back to the server
-    clientWriter.println(hashedResponse);
+    m_client_writer.println(hashedResponse);
     
     // The server will verify the response
     

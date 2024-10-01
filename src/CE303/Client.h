@@ -6,18 +6,18 @@
 
 /*
 *			Winsock Client side normally as follows:
-*	1. Initialize WSA			– WSAStartup().
-*	2. Create a socket			– socket().
-*	3. Connect to the server	– connect().
-*	4. Send and receive data	– recv(), send(), recvfrom(), sendto().
-*	5. Disconnect				– closesocket().
+*	1. Initialize WSA			ï¿½ WSAStartup().     Done in SocketType.h/cpp
+*	2. Create a socket			ï¿½ socket().         Done in SocketType.h/cpp
+*	3. Connect to the server	ï¿½ connect().
+*	4. Send and receive data	ï¿½ recv(), send(), recvfrom(), sendto().
+*	5. Disconnect				ï¿½ closesocket().    Done in SocketType.h/cpp
 *	
 *	IPV4 uses - sockaddr_in, in_addr
 *	IPV6 uses - addrinfo, sockaddr
 * 
 */
 
-#include "DataStructures/SocketType/SocketType.h"
+#include "datastructs/SocketType/SocketType.h"
 #include "Client/ServerListener.h"
 
 
@@ -26,9 +26,7 @@ class Client
 public:
 	Client(
 		const std::string& server_address, 
-		const int server_port, 
-		std::ostream* client_writer,
-		std::istream* server_reader
+		const int server_port
 	);
 	~Client();
 
@@ -38,20 +36,12 @@ public:
 	socket_t GetSocket();
 
 private:
-	void InitSockets();
-	void CreateSocket();
 	bool Authenticate();
 	std::string* CalculateHash(const std::string& hash_input);
 	void Close();
 	void Shutdown();
 
 private:
-
-#ifdef _WIN32
-	WORD m_wVersionRequested;
-	WSADATA m_wsaData;
-	int m_wsaerr;
-#endif
 
 	std::string m_server_address;
 	int m_server_port;

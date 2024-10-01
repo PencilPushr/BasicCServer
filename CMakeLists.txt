@@ -9,25 +9,26 @@ include_directories( "util" )
 file (GLOB source_files CONFIGURE_DEPENDS
 		"*.cpp"
 		"*.h"
-			"Src/*.cpp"
-			"Src/*.h"
-				#"src/CE303/*.cpp" See the GLOB_RECURSE
-				#"src/CE303/*.h"
-					#"src/CE303/Client/*.cpp"
-					#"src/CE303/Client/*.h"
-			"Util/Datastructs/*.cpp"
-			"Util/Datastructs/*.h"
-				"Util/Datastructs/SocketType/*.cpp"
-				"Util/Datastructs/SocketType/*.h"
+			"src/*.cpp"
+			"src/*.h"
+			"util/datastructs/*.cpp"
+			"util/datastructs/*.h"
+				"util/datastructs/SocketType/*.cpp"
+				"util/datastructs/SocketType/*.h"
 )
 
-file (GLOB_RECURSE ce303_files CMAKE_CONFIGURE_DEPENDS
-		"Src/CE303/*.cpp"
-		"Src/CE303/*.h"
+file (GLOB_RECURSE ce303_files CONFIGURE_DEPENDS
+		"src/CE303/*.cpp"
+		"src/CE303/*.h"
 )
 
 # Add source to this project's library.
-add_executable(${PROJECT_NAME} ${source_files} ${ce303_files})
+add_executable(${PROJECT_NAME} ${source_files} ${ce303_files}
+        util/datastructs/SocketType/SocketType.cpp
+		util/datastructs/SocketType/SocketStreambuf.cpp
+		util/datastructs/SocketType/SocketStreambuf.h
+		util/datastructs/SocketType/SocketStream.cpp
+		util/datastructs/SocketType/SocketStream.h)
 
 # Set which version of C++ we want to use
 if (CMAKE_VERSION VERSION_GREATER 3.12)

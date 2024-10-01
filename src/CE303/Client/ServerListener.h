@@ -2,7 +2,7 @@
 
 #include <vector>
 
-#include "DataStructures/SocketType/SocketType.h"
+#include "datastructs/SocketType/SocketType.h"
 
 class Client;
 

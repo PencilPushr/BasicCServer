@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cstdint>
+#include <deque>
 
 // Reference guide:
 // https://en.wikipedia.org/wiki/SHA-2
@@ -17,6 +18,7 @@ class SHA256
 public:
 	SHA256();
 	~SHA256() = default();
+    std::deque<int> deque();
 
 private:
 	uint8_t m_data[64];
