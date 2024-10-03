@@ -6,18 +6,18 @@
 
 /*
 *			Winsock Client side normally as follows:
-*	1. Initialize WSA			� WSAStartup().     Done in SocketType.h/cpp
-*	2. Create a socket			� socket().         Done in SocketType.h/cpp
-*	3. Connect to the server	� connect().
-*	4. Send and receive data	� recv(), send(), recvfrom(), sendto().
-*	5. Disconnect				� closesocket().    Done in SocketType.h/cpp
+*	1. Initialize WSA			- WSAStartup().     Done in SocketType.h/cpp
+*	2. Create a socket			- socket().         Done in SocketType.h/cpp
+*	3. Connect to the server	- connect().
+*	4. Send and receive data	- recv(), send(), recvfrom(), sendto().
+*	5. Disconnect				- closesocket().    Done in SocketType.h/cpp
 *	
 *	IPV4 uses - sockaddr_in, in_addr
 *	IPV6 uses - addrinfo, sockaddr
 * 
 */
 
-#include "datastructs/SocketType/SocketType.h"
+#include "SocketType/SocketType.h"
 #include "Client/ServerListener.h"
 
 

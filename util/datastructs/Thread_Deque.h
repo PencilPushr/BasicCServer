@@ -130,7 +130,8 @@ inline T Deque<T, buff_size>::PopFront()
     data_allocator::destroy(m_start.cur);
     ++m_start.cur;
     --m_elements_count;
-    if (m_start.cur == m_start.last) {
+    if (m_start.cur == m_start.last)
+    {
         DestroyChunkAtFront();
     }
     return value;
@@ -147,7 +148,8 @@ inline T Deque<T, buff_size>::PopBack()
     T value = *m_finish.cur;
     data_allocator::destroy(m_finish.cur);
     --m_elements_count;
-    if (m_finish.cur == m_finish.first) {
+    if (m_finish.cur == m_finish.first)
+    {
         DestroyChunkAtBack();
     }
     return value;
@@ -189,7 +191,8 @@ inline void Deque<T, buff_size>::CreateFirstChunk()
 template<typename T, size_t buff_size>
 inline void Deque<T, buff_size>::RangeCheck(size_t n) const
 {
-    if (n >= size()) {
+    if (n >= size())
+    {
         throw std::out_of_range("Deque index out of range");
     }
 }
@@ -214,7 +217,8 @@ inline void Deque<T, buff_size>::CentreChunks()
 template<typename T, size_t buff_size>
 void Deque<T, buff_size>::CreateChunkAtFront()
 {
-    if (m_start.node == m_map) {
+    if (m_start.node == m_map)
+    {
         ReallocateMap(m_map_size * 2);
     }
     *(--m_start.node) = data_allocator::allocate(CHUNK_SIZE);
@@ -225,7 +229,8 @@ void Deque<T, buff_size>::CreateChunkAtFront()
 template<typename T, size_t buff_size>
 void Deque<T, buff_size>::CreateChunkAtBack()
 {
-    if (m_finish.node == m_map + m_map_size - 1) {
+    if (m_finish.node == m_map + m_map_size - 1)
+    {
         ReallocateMap(m_map_size * 2);
     }
     *(++m_finish.node) = data_allocator::allocate(CHUNK_SIZE);

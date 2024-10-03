@@ -3,14 +3,14 @@
 
 SocketStreambuf::SocketStreambuf(socket_t socket_fd, std::size_t buff_sz)
         : m_socket(socket_fd)
-        , in_buffer_(buff_sz)
-        , out_buffer_(buff_sz)
+        , m_in_buffer(buff_sz)
+        , m_out_buffer(buff_sz)
 {
     // 1. Set up the input buffer pointers
-    setg(in_buffer_.data(), in_buffer_.data() + in_buffer_.size(), in_buffer_.data() + in_buffer_.size());
+    setg(m_in_buffer.data(), m_in_buffer.data() + m_in_buffer.size(), m_in_buffer.data() + m_in_buffer.size());
 
     // 2. Set up the output buffer pointers
-    setp(out_buffer_.data(), out_buffer_.data() + out_buffer_.size());
+    setp(m_out_buffer.data(), m_out_buffer.data() + m_out_buffer.size());
 }
 
 // Called when the input buffer is empty. It reads data from the socket into the buffer.
@@ -24,17 +24,18 @@ SocketStreambuf::int_type SocketStreambuf::underflow()
 
     // 2. We overwrite the buffer with new data
 #ifdef _WIN32
-    int n = recv(m_socket, in_buffer_.data(), static_cast<int>(in_buffer_.size()), 0);
+    int n = recv(m_socket, m_in_buffer.data(), static_cast<int>(m_in_buffer.size()), 0);
 #else
-    ssize_t n = read(m_socket, in_buffer_.data(), in_buffer_.size());
+    ssize_t n = read(m_socket, m_in_buffer.data(), m_in_buffer.size());
 #endif
 
-    if (n <= 0) {
+    if (n <= 0)
+    {
         return traits_type::eof();
     }
 
     // Reset buffer pointers after reading
-    setg(in_buffer_.data(), in_buffer_.data(), in_buffer_.data() + n);
+    setg(m_in_buffer.data(), m_in_buffer.data(), m_in_buffer.data() + n);
 
     return traits_type::to_int_type(*gptr());
 }

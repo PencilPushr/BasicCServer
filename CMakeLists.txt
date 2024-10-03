@@ -23,12 +23,11 @@ file (GLOB_RECURSE ce303_files CONFIGURE_DEPENDS
 )
 
 # Add source to this project's library.
-add_executable(${PROJECT_NAME} ${source_files} ${ce303_files}
-        src/SocketType/SocketType.cpp
-        src/SocketType/SocketStreambuf.cpp
-        src/SocketType/SocketStreambuf.h
-        src/SocketType/SocketStream.cpp
-        src/SocketType/SocketStream.h)
+add_executable(
+		${PROJECT_NAME}
+		${source_files}
+		${ce303_files}
+)
 
 # Set which version of C++ we want to use
 if (CMAKE_VERSION VERSION_GREATER 3.12)

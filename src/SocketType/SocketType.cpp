@@ -23,7 +23,8 @@ Socket::Socket(const std::string& host, const std::string& port) : m_socket(INVA
     }
 #endif
 
-    struct addrinfo hints{}, *res = nullptr;
+    struct addrinfo hints{};
+    struct addrinfo* res = nullptr;
 
     std::memset(&hints, 0, sizeof(hints));
     hints.ai_family = AF_UNSPEC;      // Allow IPv4 or IPv6

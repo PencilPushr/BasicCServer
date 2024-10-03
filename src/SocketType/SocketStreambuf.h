@@ -23,14 +23,16 @@ protected:
 
     // Output buffer operations
     virtual int_type overflow(int_type ch) override;
+
+    // Flush the output buffer
     virtual int sync() override;
 
 private:
     socket_t m_socket;
-    std::vector<char> in_buffer_;
-    std::vector<char> out_buffer_;
+    std::vector<char> m_in_buffer;
+    std::vector<char> m_out_buffer;
 };
 
 // David -> What would be ideal is to have a thread for reading and writing, so that you can have independent sends and reads
 // This could be done with a Writer Object thread using Datastructure (Queue) that is notified.
-//Have a buffering policy for when it gets full
+// Have a buffering policy for when it gets full

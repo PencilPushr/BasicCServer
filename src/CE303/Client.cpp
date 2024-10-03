@@ -4,11 +4,14 @@
 #include <string>
 #include <cstring>
 
-Client::Client(const std::string& server_address, const int server_port) :
-    m_server_address{ server_address }, m_server_port{ server_port }, m_socket{ INVALID_SOCKET }
-{
-
-}
+Client::Client(
+        const std::string& server_address,
+        const int server_port
+)
+        : m_server_address{ server_address }
+        , m_server_port{ server_port }
+        , m_socket{ INVALID_SOCKET }
+{}
 
 Client::~Client()
 {
@@ -17,23 +20,7 @@ Client::~Client()
 
 void Client::Connect()
 {
-    InitSockets();
-    CreateSocket();
 
-
-    // Get server info
-    // alt:
-    /*
-    HOSTENT* host = gethostbyname(szHost);
-    if (host == nullptr)
-    {
-        printf("Client: Failed to get host info");
-    }
-    */
-    SOCKADDR_IN client_service;
-    client_service.sin_family = AF_INET;                           // AF_INET is the Internet address family.
-    client_service.sin_addr.s_addr = inet_addr(m_server_address.c_str());  // bind IP address to socket
-    client_service.sin_port = htons(m_server_port);                // bind port number to socket
     /*
     memcpy(&sin.sin_addr.S_un.S_addr, host->h_addr_list[0], sizeof(sin.sin_addr.S_un.S_addr))
     */
